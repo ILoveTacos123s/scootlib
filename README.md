@@ -1,272 +1,261 @@
-Installation
-lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/your-repo/scoot-ui/main.lua"))()
-Quick Start
-lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/your-repo/scoot-ui/main.lua"))()
+````md
+---
 
--- Create main window
-local Window = Library:Window({
-    Logo = "77218680285262",   -- Roblox asset ID
-    FadeTime = 0.3,            -- fade animation time
-    Size = UDim2.new(0, 751, 0, 539)
-})
+## 🧩 Components & Methods
 
--- Create watermark and keybind list (optional)
-local Watermark = Library:Watermark("My Script")
-local KeybindList = Library:KeybindList()
+### 🪟 Window
 
--- Add pages
-local CombatPage = Window:Page({ Name = "Combat", SubPages = true })
-local SettingsPage = Library:CreateSettingsPage(Window, Watermark, KeybindList) -- built-in settings
+```lua
+Window:Page({ Name, Columns, SubPages })
+Window:SetOpen(bool)
+````
 
--- Add a subpage
-local WeaponsSub = CombatPage:SubPage({ Name = "Weapons", Columns = 2 })
+---
 
--- Add a section
-local MainSection = WeaponsSub:Section({ Name = "Main", Side = 1 })
+### 📄 Page
 
--- Add components
-MainSection:Toggle({
-    Name = "Enabled",
-    Flag = "EnableFeature",
-    Default = true,
-    Callback = function(value)
-        print("Toggle:", value)
-    end
-})
+```lua
+Page:SubPage({ Name, Columns })
+Page:Turn(bool)
+```
 
-MainSection:Slider({
-    Name = "Speed",
-    Flag = "SpeedValue",
-    Min = 0,
-    Max = 100,
-    Default = 50,
-    Suffix = "%",
-    Callback = function(value)
-        print("Slider:", value)
-    end
-})
+---
 
-local btn = MainSection:Button()
-btn:Add("Click Me", function()
-    print("Button clicked")
-end)
+### 📄 SubPage
 
-MainSection:Dropdown({
-    Name = "Mode",
-    Flag = "ModeSelect",
-    Items = {"Auto", "Semi", "Manual"},
-    Default = "Auto",
-    Callback = function(value)
-        print("Dropdown:", value)
-    end
-})
+Same as Page (inherits Page methods)
 
-MainSection:Textbox({
-    Name = "Username",
-    Flag = "UserName",
-    Placeholder = "Enter name...",
-    Callback = function(value)
-        print("Textbox:", value)
-    end
-})
+---
 
-MainSection:Label("Status"):Colorpicker({
-    Flag = "StatusColor",
-    Default = Color3.fromRGB(255, 0, 0),
-    Callback = function(color)
-        print("Color changed:", color)
-    end
-})
+### 📦 Section
 
-MainSection:Label("Hotkey"):Keybind({
-    Flag = "MyKeybind",
-    Default = Enum.KeyCode.R,
-    Mode = "Toggle", -- "Toggle", "Hold", or "Always"
-    Callback = function(toggled)
-        print("Keybind toggled:", toggled)
-    end
-})
+```lua
+Section:Toggle({ Name, Flag, Default, Callback })
+Section:Button()
+Section:Slider({ Name, Flag, Min, Max, Default, Suffix, Decimals, Callback })
+Section:Dropdown({ Name, Flag, Items, Default, Multi, Callback })
+Section:Label(Name)
+Section:Textbox({ Name, Flag, Default, Placeholder, Numeric, Finished, Callback })
+Section:Searchbox({ Name, Flag, Items, Default, Multi, Callback })
+```
 
--- Notifications
-Library:Notification("Title", "Description here", 5) -- duration in seconds
+---
 
--- Get flag values
-local value = Library.Flags["EnableFeature"]
-Components & Methods
-Window
-lua
-Window:Page({ Name, Columns, SubPages }) -- returns Page
-Window:SetOpen(bool) -- show/hide window
-Page
-lua
-Page:SubPage({ Name, Columns }) -- returns SubPage
-Page:Turn(bool) -- activate page
-SubPage
-Same as Page (SubPage inherits Page methods).
+### 🔘 Toggle
 
-Section
-lua
-Section:Toggle({ Name, Flag, Default, Callback }) -- returns Toggle
-Section:Button() -- returns Button
-Section:Slider({ Name, Flag, Min, Max, Default, Suffix, Decimals, Callback }) -- returns Slider
-Section:Dropdown({ Name, Flag, Items, Default, Multi, Callback }) -- returns Dropdown
-Section:Label(Name) -- returns Label
-Section:Textbox({ Name, Flag, Default, Placeholder, Numeric, Finished, Callback }) -- returns Textbox
-Section:Searchbox({ Name, Flag, Items, Default, Multi, Callback }) -- returns Searchbox
-Toggle
-lua
+```lua
 Toggle:Get() -> boolean
 Toggle:Set(bool)
 Toggle:SetVisibility(bool)
-Toggle:Colorpicker({ Flag, Default, Alpha, Callback }) -- returns Colorpicker (attached inline)
-Toggle:Keybind({ Flag, Default, Mode, Callback }) -- returns Keybind (attached inline)
-Button
-lua
-Button:Add(name, callback) -- creates a new button (can call multiple times)
+
+Toggle:Colorpicker({ Flag, Default, Alpha, Callback })
+Toggle:Keybind({ Flag, Default, Mode, Callback })
+```
+
+---
+
+### 🔘 Button
+
+```lua
+Button:Add(name, callback)
 Button:SetVisibility(bool)
-Slider
-lua
+```
+
+---
+
+### 🎚️ Slider
+
+```lua
 Slider:Get() -> number
 Slider:Set(number)
 Slider:SetVisibility(bool)
-Dropdown
-lua
-Dropdown:Get() -> string/table (depending on Multi)
-Dropdown:Set(value) -- string for single, table for multi
-Dropdown:Add(option) -- adds option to dropdown
+```
+
+---
+
+### 📋 Dropdown
+
+```lua
+Dropdown:Get() -> string/table
+Dropdown:Set(value)
+Dropdown:Add(option)
 Dropdown:Remove(option)
-Dropdown:Refresh(list) -- replaces all options
+Dropdown:Refresh(list)
 Dropdown:SetVisibility(bool)
-Label
-lua
+```
+
+---
+
+### 🏷️ Label
+
+```lua
 Label:SetText(string)
 Label:SetVisibility(bool)
-Label:Colorpicker({ Flag, Default, Alpha, Callback }) -- inline colorpicker
-Label:Keybind({ Flag, Default, Mode, Callback }) -- inline keybind
-Textbox
-lua
+
+Label:Colorpicker({ Flag, Default, Alpha, Callback })
+Label:Keybind({ Flag, Default, Mode, Callback })
+```
+
+---
+
+### ⌨️ Textbox
+
+```lua
 Textbox:Get() -> string
 Textbox:Set(string)
 Textbox:SetVisibility(bool)
-Searchbox
-Same as Dropdown, but with built-in search input and scrolling list. Good for large option sets.
+```
 
-Keybind
-lua
+---
+
+### 🔍 Searchbox
+
+Same as Dropdown, but with built-in search and scrolling.
+
+---
+
+### ⌨️ Keybind
+
+```lua
 Keybind:Get() -> key, mode, toggled
-Keybind:Set(key or table or mode) -- e.g., Enum.KeyCode.R, {Key = Enum.KeyCode.R, Mode = "Hold"}, "Toggle"
+Keybind:Set(key or table or mode)
 Keybind:SetMode("Toggle"/"Hold"/"Always")
-Keybind:Press(bool) -- manually trigger press (optional)
+Keybind:Press(bool)
 Keybind:SetVisibility(bool)
-Colorpicker
-lua
-Colorpicker:Set(color, alpha) -- color can be Color3, hex string, or {r,g,b,a}
+```
+
+---
+
+### 🎨 Colorpicker
+
+```lua
+Colorpicker:Set(color, alpha)
 Colorpicker:Get() -> Color3, alpha
 Colorpicker:SetOpen(bool)
-Colorpicker:Update() -- refresh display
-Colorpicker:SlidePalette(input) -- manual control
+Colorpicker:Update()
+Colorpicker:SlidePalette(input)
 Colorpicker:SlideHue(input)
 Colorpicker:SlideAlpha(input)
-Flags System
-All components accept a Flag parameter. Flags are stored in Library.Flags and can be accessed anywhere.
+```
 
-lua
--- Get flag value
+---
+
+## 🏳️ Flags System
+
+```lua
 local enabled = Library.Flags["MyToggleFlag"]
-
--- Set flag programmatically (updates UI automatically)
 Library.SetFlags["MyToggleFlag"](true)
-Theming
-You can change theme colors at runtime:
+```
 
-lua
+---
+
+## 🎨 Theming
+
+```lua
 Library.Theme.Accent = Color3.fromRGB(255, 0, 0)
 Library:ChangeTheme("Accent", Color3.fromRGB(255, 0, 0))
-Available theme keys:
+```
 
-Background
+**Available Keys:**
 
-Border
+* Background
+* Border
+* Inline
+* Hovered Element
+* Page Background
+* Outline
+* Element
+* Gradient
+* Text
+* Text Stroke
+* Placeholder Text
+* Accent
 
-Inline
+---
 
-Hovered Element
+## 💾 Config System
 
-Page Background
-
-Outline
-
-Element
-
-Gradient
-
-Text
-
-Text Stroke
-
-Placeholder Text
-
-Accent
-
-Config System
-lua
--- Save current flags to file
+```lua
 local json = Library:GetConfig()
 writefile("config.json", json)
 
--- Load from file
 Library:LoadConfig(readfile("config.json"))
-
--- Delete config
 Library:DeleteConfig("config.json")
-Built-in Settings page automatically handles configs via Library:CreateSettingsPage().
+```
 
-Additional Features
-Notification
-lua
+---
+
+## 🔔 Additional Features
+
+### Notifications
+
+```lua
 Library:Notification(title, description, durationSeconds)
-Watermark
-lua
+```
+
+---
+
+### Watermark
+
+```lua
 local wm = Library:Watermark("My Script")
-wm:SetVisibility(true/false)
-Keybind List
-lua
+wm:SetVisibility(true)
+```
+
+---
+
+### Keybind List
+
+```lua
 local list = Library:KeybindList()
-list:Add(keyName, description, mode) -- automatically managed by Keybind components
+list:Add(keyName, description, mode)
 list:SetVisibility(bool)
-Inventory Viewer
-lua
+```
+
+---
+
+### Inventory Viewer
+
+```lua
 local viewer = Library:InventoryViewer()
-viewer:SetPlayer(player) -- sets avatar and title
+viewer:SetPlayer(player)
 viewer:SetPlayerHealth(100)
 viewer:SetPlayerDistance(50)
 viewer:AddTool("ToolName", "rbxassetid")
 viewer:RemoveAllTools()
-Global Events & Utilities
-lua
-Library:Connect(event, callback, name) -- safe connection with cleanup
+```
+
+---
+
+## 🧠 Utilities
+
+```lua
+Library:Connect(event, callback, name)
 Library:Disconnect(name)
-Library:Thread(func) -- run in coroutine
-Library:SafeCall(func, ...) -- pcall wrapper
+Library:Thread(func)
+Library:SafeCall(func, ...)
 Library:Round(number, decimals)
-Library:IsMouseOverFrame(frame) -- check if mouse is over a UI element
-Library:ToRich(text, color) -- convert text to rich text with color
-Notes
-The library automatically creates folders for configs and assets.
+Library:IsMouseOverFrame(frame)
+Library:ToRich(text, color)
+```
 
-Images are downloaded and cached on first use.
+---
 
-Mobile touch events are automatically mapped.
+## 📝 Notes
 
-The UI is fully draggable and resizable.
+* Automatically creates folders for configs/assets
+* Images are cached on first use
+* Mobile supported
+* Fully draggable & resizable UI
+* Use `Library:Unload()` to clean up
 
-Use Library:Unload() to clean up all connections and destroy the UI.
+---
 
-Example Full Script
-lua
+## 📌 Full Example
+
+```lua
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/your-repo/scoot-ui/main.lua"))()
+
 local Window = Library:Window({ Logo = "77218680285262" })
 local Watermark = Library:Watermark("Example")
 local KeybindList = Library:KeybindList()
@@ -308,3 +297,9 @@ CombatSection:Dropdown({
 })
 
 Library:Notification("Loaded", "UI ready", 3)
+```
+
+---
+
+```
+```
