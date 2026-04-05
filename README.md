@@ -6,7 +6,7 @@ A modern, feature-rich UI library for Roblox exploits. Built with performance an
 ## Installation
 
 ```lua
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/your-repo/scoot-ui/main.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/ILoveTacos123s/scootlib/refs/heads/main/scootuilib.lua"))()
 ```
 
 ## Quick Start
